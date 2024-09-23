@@ -3,38 +3,39 @@
 
 #define epsilon 0.0001
 
-int count = 0;
+int numar_iteratii = 0;
 
-double f(double x)
+double functie(double x)
 {
     return log10(2 * x + 3) + 2 * x - 1;
 }
 
-double fi(double x)
+double functie_iterata(double x)
 {
     return (log10(2 * x + 3) - 1) / -2;
 }
 
-double fD(double x)
+double derivata_functie(double x)
 {
     return 2 + 2 / (2 * x + 3);
 }
 
-double fDD(double x)
+double derivata_doua_functie(double x)
 {
     return -2 / pow(2 * x + 3, 2);
 }
 
-double injumatatire(double a, double b)
+double metoda_injumatatirii(double a, double b)
 {
     double c;
-    if (f(a) * f(b) < 0)
+    if (functie(a) * functie(b) < 0)
     {
         while (fabs(b - a) > epsilon)
         {
             c = (a + b) / 2;
-            count++;
-            if (f(a) * f(c) < 0)
+            numar_iteratii++;
+            printf("Pasul %d: a = %f, b = %f, c = %f\n", numar_iteratii, a, b, c);
+            if (functie(a) * functie(c) < 0)
                 b = c;
             else
                 a = c;
@@ -47,13 +48,14 @@ double injumatatire(double a, double b)
     }
 }
 
-double aproximare(double a)
+double metoda_aproximarilor(double a)
 {
     double x = a, y;
     do
     {
-        y = fi(x);
-        count++;
+        y = functie_iterata(x);
+        numar_iteratii++;
+        printf("Pasul %d: x = %f, y = %f\n", numar_iteratii, x, y);
         if (fabs(y - x) <= epsilon)
             break;
         x = y;
@@ -61,13 +63,14 @@ double aproximare(double a)
     return x;
 }
 
-double newton(double a)
+double metoda_newton(double a)
 {
     double x = a, x1;
     do
     {
-        x1 = x - f(x) / fD(x);
-        count++;
+        x1 = x - functie(x) / derivata_functie(x);
+        numar_iteratii++;
+        printf("Pasul %d: x = %f, x1 = %f\n", numar_iteratii, x, x1);
         if (fabs(x1 - x) <= epsilon)
             break;
         x = x1;
@@ -75,30 +78,52 @@ double newton(double a)
     return x1;
 }
 
+double metoda_secantelor(double x0, double x1)
+{
+    double x2;
+    do
+    {
+        x2 = x1 - (functie(x1) * (x1 - x0)) / (functie(x1) - functie(x0));
+        numar_iteratii++;
+        printf("Pasul %d: x0 = %f, x1 = %f, x2 = %f\n", numar_iteratii, x0, x1, x2);
+        if (fabs(x2 - x1) <= epsilon)
+            break;
+        x0 = x1;
+        x1 = x2;
+    } while (1);
+    return x2;
+}
+
 int main()
 {
     double a = -1, b = 1;
+    
     printf("Metoda injumatatirii intervalului:\n");
-    double rootInj = injumatatire(a, b);
-    if (rootInj != -1)
+    double radacina_injumatatire = metoda_injumatatirii(a, b);
+    if (radacina_injumatatire != -1)
     {
-        printf("(%f, 0)\n", rootInj);
+        printf("Rădăcina: (%f, 0)\n", radacina_injumatatire);
     }
     else
     {
         printf("Metoda injumatatirii nu a reusit.\n");
     }
-    printf("Numar iteratii: %d\n", count);
-    count = 0;
+    printf("Numar iteratii: %d\n", numar_iteratii);
+    numar_iteratii = 0;
 
     printf("Metoda aproximarilor succesive:\n");
-    printf("%f\n", aproximare(a));
-    printf("Numar iteratii: %d\n", count);
-    count = 0;
+    printf("Rădăcina: %f\n", metoda_aproximarilor(a));
+    printf("Numar iteratii: %d\n", numar_iteratii);
+    numar_iteratii = 0;
 
     printf("Metoda Newton:\n");
-    printf("%f\n", newton(a));
-    printf("Numar iteratii: %d\n", count);
+    printf("Rădăcina: %f\n", metoda_newton(a));
+    printf("Numar iteratii: %d\n", numar_iteratii);
+    numar_iteratii = 0;
+
+    printf("Metoda secantelor:\n");
+    printf("Rădăcina: %f\n", metoda_secantelor(a, b));
+    printf("Numar iteratii: %d\n", numar_iteratii);
 
     return 0;
 }
