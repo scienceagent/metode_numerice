@@ -11,7 +11,7 @@
 ## Exercises
 - [Lab Assigment 1](lab_1)
   - ⤷ REZOLVAREA NUMERICĂ A ECUAŢIILOR ALGEBRICE ŞI TRANSCENDENTE. <br/> 
-- [Lab Assignment 2](src/lab_2/README.md)
+- [Lab Assignment 2](lab_2)
   - ⤷ REZOLVAREA NUMERICĂ A SISTEMELOR DE ECUAŢII LINIARE. <br/> 
 - [Lab Assignment 3](src/lab_3/README.md) 
 - [Lab Assignment 4](src/lab_4/README.md)
