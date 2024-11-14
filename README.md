@@ -13,6 +13,6 @@
   - ⤷ REZOLVAREA NUMERICĂ A ECUAŢIILOR ALGEBRICE ŞI TRANSCENDENTE. <br/> 
 - [Lab Assignment 2](lab_2)
   - ⤷ REZOLVAREA NUMERICĂ A SISTEMELOR DE ECUAŢII LINIARE. <br/> 
-- [Lab Assignment 3](src/lab_3/README.md) 
+- [Lab Assignment 3](lab_3) 
   - ⤷ INTERPOLAREA FUNCŢIILOR CU AJUTORUL POLINOMULUI LAGRANGE. <br/>
 - [Lab Assignment 4](src/lab_4/README.md)
