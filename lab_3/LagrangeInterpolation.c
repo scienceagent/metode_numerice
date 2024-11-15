@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <math.h>
 
+double f(double x) {
+    // Define the actual function f(x) here, if needed
+    return x * x + 2 * x + 1;
+}
+
 double lagrange_interpolation(double *x, double *y, int n, double xi) {
     double result = 0.0;
     for (int i = 0; i < n; i++) {
@@ -17,71 +22,20 @@ double lagrange_interpolation(double *x, double *y, int n, double xi) {
 }
 
 int main() {
-    int n;
-    printf("Introduceti numarul de puncte: ");
-    scanf("%d", &n);
+    int n = 7; // Number of points
+    double x[] = {0.765, 1.867, 3.987, 5.601, 7.043, 9.231, 10.987};
+    double y[] = {2.87611, 4.18432, 1.09673, -1.4587, -3.5729, 0.9876, 2.87644};
 
-    double *x = (double *)malloc(n * sizeof(double));
-    double *y = (double *)malloc(n * sizeof(double));
-
-    if (x == NULL || y == NULL) {
-        printf("Eroare la alocarea memoriei!\n");
-        return 1;
-    }
-
-    printf("Introduceti valorile lui x si y:\n");
-    for (int i = 0; i < n; i++) {
-        printf("x[%d]= ", i);
-        scanf("%lf", &x[i]);
-        printf("y[%d]= ", i);
-        scanf("%lf", &y[i]);
-    }
-
-    double alpha;
-    printf("Introduceti valoarea pentru x=alpha: ");
-    scanf("%lf", &alpha);
+    double alpha = 1.276;
+    printf("Interpolating for x=%.3f using Lagrange interpolation.\n", alpha);
 
     double result_interpolation = lagrange_interpolation(x, y, n, alpha);
+    double result_actual = f(alpha);
+    double error = fabs(result_interpolation - result_actual);
+
     printf("Valoarea f(x) pentru x=%.3f este: %.6f\n", alpha, result_interpolation);
-
-    // Aproximarea valorii funcției f(x) pentru x=alpha cu eroarea ε=10^(-4)
-    double epsilon = 1e-4;
-    int m = n;
-
-    while (1) {
-        double *xm = (double *)malloc(m * sizeof(double));
-        double *ym = (double *)malloc(m * sizeof(double));
-
-        if (xm == NULL || ym == NULL) {
-            printf("Eroare la alocarea memoriei!\n");
-            free(x);
-            free(y);
-            return 1;
-        }
-
-        for (int i = 0; i < m; i++) {
-            xm[i] = x[i];
-            ym[i] = y[i];
-        }
-
-        double result_high_precision = lagrange_interpolation(xm, ym, m, alpha);
-        double error = fabs(result_high_precision - result_interpolation);
-
-        free(xm);
-        free(ym);
-
-        if (error < epsilon) {
-            printf("Aproximarea cu eroarea ε=10^(-4) pentru x=%.3f este: %.6f\n", alpha, result_high_precision);
-            break;
-        }
-
-        // Mărește m pentru o aproximare mai bună
-        m++;
-    }
-
-    // Eliberarea memoriei
-    free(x);
-    free(y);
+    printf("Valoarea reala a lui f(x) pentru x=%.3f este: %.6f\n", alpha, result_actual);
+    printf("Eroarea |f(x) - L_n(x)| este: %.6f\n", error);
 
     return 0;
 }
